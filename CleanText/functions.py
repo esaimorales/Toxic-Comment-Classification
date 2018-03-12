@@ -17,3 +17,4 @@ def read_file(file_name):
 def tokenize(data):
     tokens = nltk.word_tokenize(data)
     return tokens
+    

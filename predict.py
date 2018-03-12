@@ -16,6 +16,12 @@ test_data = pd.read_csv('test.csv').fillna(' ')
 train_text = train_data['comment_text']
 test_text = test_data['comment_text']
 
+print train_data['comment_text'][1]
+print '---------------------------'
+for i, value in enumerate(train_data['identity_hate']):
+    if value == 1:
+        print train_data['comment_text'][i]
+
 # concatenate all text
 all_text = pd.concat([train_text, test_text])
 
@@ -49,6 +55,7 @@ for category_name in category_names:
     classifier = LogisticRegression(C=10, solver='sag')
     cv_score = np.mean(cross_val_score(classifier, train_word_features, train_target, cv=3, scoring='roc_auc'))
     scores.append(cv_score)
+
     print 'CV score for class {} is {}'.format(category_name, cv_score)
     classifier.fit(train_word_features, train_target)
     submission[category_name] = classifier.predict_proba(test_word_features)[:, 1]
