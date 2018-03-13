@@ -16,8 +16,8 @@ test_data = pd.read_csv('test.csv').fillna(' ')
 train_text = train_data['comment_text']
 test_text = test_data['comment_text']
 
-print train_data['comment_text'][1]
-print '---------------------------'
+# print train_data['comment_text'][1]
+# print '---------------------------'
 for i, value in enumerate(train_data['identity_hate']):
     if value == 1:
         print train_data['comment_text'][i]
