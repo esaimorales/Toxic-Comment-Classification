@@ -20,19 +20,23 @@ train_text = train['comment_text']
 test_text = test['comment_text']
 all_text = pd.concat([train_text, test_text])
 
+for i, value in enumerate(train['toxic']):
+    if value == 1:
+        print train['comment_text'][i]
+
 vectorizer = TfidfVectorizer(
     strip_accents = 'unicode',
     stop_words = 'english',
-    max_features = 2
+    max_features = 10000
 )
 
 train_vectorized = vectorizer.fit_transform(train_text)
-print train_vectorized.toarray()
-print train_vectorized.toarray().shape
+# print train_vectorized.toarray()
+# print train_vectorized.toarray().shape
 
 test_vectorized = vectorizer.transform(test_text)
-print test_vectorized.toarray()
-print test_vectorized.toarray().shape
+# print test_vectorized.toarray()
+# print test_vectorized.toarray().shape
 
 vectorized_words = vectorizer.get_feature_names()
 print vectorized_words
