@@ -8,8 +8,8 @@ from sklearn.metrics import accuracy_score
 
 train_data = pd.read_csv('train.csv').fillna(' ')
 
-train = train_data[:100000]
-test = train_data[100000:]
+train = train_data[:150000]
+test = train_data[150000:]
 
 train_y = train['toxic']
 test_y = test['identity_hate']
@@ -26,8 +26,8 @@ all_text = pd.concat([train_text, test_text])
 
 vectorizer = TfidfVectorizer(
     strip_accents = 'unicode',
-    stop_words = 'english',
-    max_features = 1000
+    # stop_words = 'english',
+    max_features = 10000
 )
 
 vectorizer.fit(all_text)
@@ -62,7 +62,7 @@ for category in categories:
     print 'predicting', category ,'...'
     model.fit(train_vectorized, train[category])
     prediction = model.predict(test_vectorized)
-    print 'accuracy_score:', accuracy_score(test[category], prediction)
+    print 'accuracy_score:', accuracy_score(test['toxic'], prediction)
 
 # print 'ACCURACY:', accuracy_score(test_y, prediction)
 

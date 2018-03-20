@@ -34,7 +34,8 @@ word_vectorizer = TfidfVectorizer(
     token_pattern = r'\w{1,}',
     stop_words = 'english',
     ngram_range = (1, 1),
-    max_features = 10000)
+    max_features = 10000
+)
 
 # fit data
 print 'fitting data...'
