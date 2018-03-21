@@ -8,34 +8,47 @@ from sklearn.metrics import accuracy_score
 
 train_data = pd.read_csv('train.csv').fillna(' ')
 
-train = train_data[:150000]
-test = train_data[150000:]
+# find data metrics
 
-train_y = train['toxic']
-test_y = test['identity_hate']
 
-# print train_y
 
+# dataset contains 159571 instances
+train = train_data[:159000]
+test = train_data[159000:]
+
+# extract text
 train_text = train['comment_text']
 test_text = test['comment_text']
-all_text = pd.concat([train_text, test_text])
+all_text = train_data['comment_text']
 
-# for i, value in enumerate(train['toxic']):
-#     if value == 1:
-#         print train['comment_text'][i]
-
-vectorizer = TfidfVectorizer(
+# create TF-IDF word vectorizer
+vectorizer_word = TfidfVectorizer(
     strip_accents = 'unicode',
-    # stop_words = 'english',
+    analyzer = 'word',
+    stop_words = 'english',
     max_features = 10000
 )
 
-vectorizer.fit(all_text)
-train_vectorized = vectorizer.transform(train_text)
-# print train_vectorized.toarray()
+# create TF-IDF character vectorizer
+vectorizer_char = TfidfVectorizer(
+    strip_accents = 'unicode',
+    analyzer = 'char',
+    stop_words = 'english',
+    max_features = 10000
+)
 
-test_vectorized = vectorizer.transform(test_text)
-# print test_vectorized.toarray()
+# vectorize text
+vectorizer_word.fit(all_text)
+vectorizer_char.fit(all_text)
+
+train_vectorized = vectorizer_word.transform(train_text)
+test_vectorized = vectorizer_word.transform(test_text)
+
+char_vectorized = vectorizer_char.transform(train_text)
+char_vectorized = vectorizer_char.transform(test_text)
+
+
+
 
 # train_vectorized = vectorizer.fit_transform(train_text)
 # print train_vectorized.toarray()
@@ -45,7 +58,7 @@ test_vectorized = vectorizer.transform(test_text)
 # print test_vectorized.toarray()
 # print test_vectorized.toarray().shape
 
-vectorized_words = vectorizer.get_feature_names()
+# vectorized_words = vectorizer_word.get_feature_names()
 # print vectorized_words
 
 model = MultinomialNB()
@@ -57,18 +70,13 @@ model = MultinomialNB()
 
 categories = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
 prediction = []
+scores = []
 
 for category in categories:
     print 'predicting', category ,'...'
     model.fit(train_vectorized, train[category])
     prediction = model.predict(test_vectorized)
-    print 'accuracy_score:', accuracy_score(test['toxic'], prediction)
+    scores.append(accuracy_score(test[category], prediction))
+    print 'accuracy_score:', scores[-1]
 
-# print 'ACCURACY:', accuracy_score(test_y, prediction)
-
-#verify
-# for i, row in enumerate(test_text):
-#     if prediction[i] == 1:
-#         print 'text:', row
-#         print 'prediction:', prediction[i]
-#         print 'actual:', np.array(test_y)[i]
+print 'Average Accuracy:', np.mean(scores)
