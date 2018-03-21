@@ -70,9 +70,9 @@ for i, model in enumerate(models):
         print 'predicting {}...'.format(category)
         model.fit(train_features, train[category])
         # make prediction
-        prediction = model.predict(test_features)
+        prediction = model.predict(train_features)
         # calculate accuracy
-        scores.append(accuracy_score(test[category], prediction))
+        scores.append(accuracy_score(train[category], prediction))
         print 'accuracy score:', scores[-1]
 
     print 'Average Accuracy:', np.mean(scores)
