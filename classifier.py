@@ -11,8 +11,9 @@ from scipy.sparse import hstack
 train_data = pd.read_csv('train.csv').fillna(' ')
 
 # dataset contains 159571 instances
-train = train_data[:100000]
-test = train_data[100000:]
+split = 100000
+train = train_data[:split]
+test = train_data[split:]
 
 # extract text
 train_text = train['comment_text']
