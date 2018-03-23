@@ -24,7 +24,7 @@ vectorizer_word = TfidfVectorizer(
     strip_accents = 'unicode',
     analyzer = 'word',
     stop_words = 'english',
-    max_features = 10
+    max_features = 1000
 )
 
 # vectorize text
@@ -34,10 +34,10 @@ vectorizer_word.fit(all_text)
 X_train = vectorizer_word.transform(train_text)
 X_test = vectorizer_word.transform(test_text)
 
-pca = decomposition.SparsePCA(n_components = 10)
-pca.fit(X_train.toarray())
-X_train_pca = pca.transform(X_train)
-print X_train_pca
+# pca = decomposition.SparsePCA(n_components = 10)
+# pca.fit(X_train.toarray())
+# X_train_pca = pca.transform(X_train)
+# print X_train_pca
 
 nc = NearestCentroid()
 nc.fit(X_train, train['toxic'])

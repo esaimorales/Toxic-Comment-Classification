@@ -24,6 +24,7 @@ all_text = train_data['comment_text']
 vectorizer_word = TfidfVectorizer(
     strip_accents = 'unicode',
     analyzer = 'word',
+    lowercase = 'true',
     stop_words = 'english',
     max_features = 10000
 )
@@ -32,6 +33,7 @@ vectorizer_word = TfidfVectorizer(
 vectorizer_char = TfidfVectorizer(
     strip_accents = 'unicode',
     analyzer = 'char',
+    lowercase = 'true',
     stop_words = 'english',
     max_features = 10000
 )
