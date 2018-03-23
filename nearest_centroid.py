@@ -24,7 +24,7 @@ vectorizer_word = TfidfVectorizer(
     strip_accents = 'unicode',
     analyzer = 'word',
     stop_words = 'english',
-    max_features = 1000
+    max_features = 20000
 )
 
 # vectorize text
